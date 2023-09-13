@@ -3,6 +3,7 @@ import os
 from dotenv import load_dotenv
 import os
 import argparse
+from query import query
 
 load_dotenv(".env")
 
@@ -47,14 +48,16 @@ def main():
 
     while True:
         try:
+            # Get user input
             user_input = input(bold(blue("You: ")))
+            # Add user input to messages
             messages.append({"role": "user", "content": user_input})
 
             res = openai.ChatCompletion.create(
                 model="gpt-3.5-turbo",
                 messages=messages,
             )
-
+            # Add chatbot response to messages
             messages.append(res["choices"][0]["message"].to_dict())
 
             print(bold(red("Assistant: ")), res["choices"][0]["message"]["content"])
